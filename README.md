@@ -50,7 +50,7 @@ Features OTP-based login, user-specific chatrooms, AI-powered conversations via 
 ### 1. **Clone the Repository**
 
 ```bash
-git clone https://github.com/yourusername/gemini-backend.git
+git clone https://github.com/SekharSunkara6/Gemini-Backend.git
 cd gemini-backend
 ```
 
