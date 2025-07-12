@@ -9,3 +9,4 @@ celery==5.3.6             # For async task queue
 stripe==8.6.0             # For Stripe payments
 httpx==0.27.0             # For async HTTP requests (Gemini API)
 alembic==1.13.1           # For database migrations
+python-jose[cryptography]==3.3.0
