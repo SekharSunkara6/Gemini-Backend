@@ -81,14 +81,39 @@ pip install -r requirements.txt
   STRIPE_WEBHOOK_SECRET=
   ```
 
-### 4. **Database Setup**
+## 🗄️ Database Setup
 
 - Ensure PostgreSQL is running.
 - Create a database (e.g., `gemini_db`).
 - Update `DATABASE_URL` in `.env` accordingly.
-- Run migrations (if using Alembic) or create tables manually.
 
-### 5. **Start Redis**
+## 🗄️ Database Migrations with Alembic
+
+This project uses **Alembic** for managing database schema migrations.
+
+### **How to Use Alembic**
+
+#### 1. **Initialize Alembic (first time only)**
+```bash
+alembic init alembic
+```
+- This creates an `alembic/` directory and an `alembic.ini` file.
+- Edit `alembic.ini` to set your database URL (or configure it to read from your `.env`).
+
+#### 2. **Create a New Migration**
+Whenever you change your models, generate a new migration script:
+```bash
+alembic revision --autogenerate -m "Describe your change"
+```
+- This creates a migration script in `alembic/versions/`.
+
+#### 3. **Apply Migrations**
+To apply all pending migrations and update your database schema:
+```bash
+alembic upgrade head
+```
+
+## 🛠️ Start Redis
 
 **If you are on Windows and cannot install Redis natively, use Docker:**
 
@@ -101,18 +126,28 @@ docker run --name redis -d -p 6379:6379 redis
 **For Mac/Linux:**  
 Install Redis using your package manager (`brew install redis` or `sudo apt-get install redis-server`).
 
-### 6. **Run the FastAPI Server**
+## 🚦 Run the FastAPI Server
 
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 9002
 ```
 - The API will be available at [http://localhost:9002](http://localhost:9002).
 
-### 7. **Start Celery Worker**
+## ⚡ Start Celery Worker
 
 ```bash
 celery -A queue.worker.celery_app worker --loglevel=info --pool=solo
 ```
+
+## 🧪 Running Tests
+
+If you have automated tests:
+
+```bash
+pip install pytest
+pytest
+```
+- Tests should be in the `tests/` directory and require a test database and environment variables.
 
 ## 🌍 Deployment (Render.com Example)
 
@@ -191,3 +226,7 @@ celery -A queue.worker.celery_app worker --loglevel=info --pool=solo
 ## 📬 Contact
 
 For questions or help, open an issue on GitHub or email [sekharsunkara2002@gmail.com](mailto:sekharsunkara2002@gmail.com)
+
+**Happy Building! 🚀**
+
+Let me know if you want any further customizations or additions!
