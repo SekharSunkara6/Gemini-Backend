@@ -95,7 +95,7 @@ STRIPE_WEBHOOK_SECRET=
 ### 6. **Run the FastAPI Server**
 
 ```bash
-uvicorn app.main:app --reload --host 0.0.0.0 --port 9002
+uvicorn app.main:app --host 0.0.0.0 --port 9002
 ```
 
 ### 7. **Start Celery Worker**
@@ -146,10 +146,6 @@ celery -A queue.worker.celery_app worker --loglevel=info --pool=solo
 - **Stripe is in sandbox mode** for safe testing.
 - **For local testing:**  
   Use default `.env.example` values and run PostgreSQL/Redis locally.
-
-## 📑 License
-
-MIT License
 
 ## 📬 Contact
 
