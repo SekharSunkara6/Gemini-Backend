@@ -18,7 +18,7 @@ Features OTP-based login, user-specific chatrooms, AI-powered conversations via 
 
 - **Language:** Python 3.10+ (FastAPI)
 - **Database:** PostgreSQL
-- **Queue & Caching:** Celery + Redis (Docker recommended on Windows[5])
+- **Queue & Caching:** Celery + Redis (Docker recommended on Windows)
 - **Payments:** Stripe (sandbox)
 - **AI:** Google Gemini API
 - **Deployment:** Render.com / Railway.app (recommended)
@@ -114,6 +114,46 @@ uvicorn app.main:app --host 0.0.0.0 --port 9002
 celery -A queue.worker.celery_app worker --loglevel=info --pool=solo
 ```
 
+## 🌍 Deployment (Render.com Example)
+
+### **Live Demo**
+
+- **Base URL:**  
+  [https://gemini-backend-lwow.onrender.com](https://gemini-backend-lwow.onrender.com)
+
+- **Health Check:**  
+  [https://gemini-backend-lwow.onrender.com/](https://gemini-backend-lwow.onrender.com/)  
+  Returns:  
+  ```json
+  {"status":"ok"}
+  ```
+
+- **Interactive API Docs (Swagger UI):**  
+  [https://gemini-backend-lwow.onrender.com/docs](https://gemini-backend-lwow.onrender.com/docs)
+
+- **ReDoc Documentation:**  
+  [https://gemini-backend-lwow.onrender.com/redoc](https://gemini-backend-lwow.onrender.com/redoc)
+
+### **How to Test the Deployed API**
+
+- **With Postman or browser:**  
+  - `GET https://gemini-backend-lwow.onrender.com/` → should return `{"status":"ok"}`
+  - Open [https://gemini-backend-lwow.onrender.com/docs](https://gemini-backend-lwow.onrender.com/docs) for interactive API docs.
+- **Share these URLs** with anyone (instructor, teammates) for live testing.
+
+### **How to Deploy on Render**
+
+1. Push your code to GitHub.
+2. Create a new Web Service on [Render](https://render.com).
+3. Connect your GitHub repo.
+4. Set build command: `pip install -r requirements.txt`
+5. Set start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+6. Add all environment variables from `.env.example` in the Render dashboard.
+7. (Recommended) Add a PostgreSQL database via Render and update the `DATABASE_URL` accordingly (use the `+asyncpg` driver for async SQLAlchemy).
+8. Deploy and get your public URL.
+
+**Note:** On the free Render plan, the API may take up to 50 seconds to respond after inactivity due to server spin-down. This is normal.
+
 ## 🧪 API Documentation & Testing
 
 - **Swagger UI:** [http://localhost:9002/docs](http://localhost:9002/docs) (interactive API docs)
@@ -139,18 +179,6 @@ celery -A queue.worker.celery_app worker --loglevel=info --pool=solo
 ## 🤖 Gemini API Integration
 
 - Chat messages are sent to Google Gemini API asynchronously via Celery.
-
-## 🌐 Deployment
-
-### **Recommended: Render.com or Railway.app**
-
-1. Push your code to GitHub.
-2. Create a new Web Service on [Render](https://render.com) or [Railway](https://railway.app).
-3. Connect your GitHub repo.
-4. Set build command: `pip install -r requirements.txt`
-5. Set start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-6. Add all environment variables from `.env.example`.
-7. Deploy and get your public URL.
 
 ## 📝 Notes
 
