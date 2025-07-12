@@ -1,26 +1,28 @@
 # Gemini Backend
 
-A scalable backend for a Gemini-style chat application, featuring OTP-based login, user-specific chatrooms, AI-powered conversations via Google Gemini, and Stripe-powered subscriptions.
+A robust, scalable backend for a Gemini-style chat application.  
+Features OTP-based login, user-specific chatrooms, AI-powered conversations via Google Gemini, and Stripe-powered subscriptions.
 
 ## 🚀 Features
 
-- OTP-based login (mobile number only, OTP returned via API)
-- JWT authentication for secure API access
-- User chatrooms (create, list, view)
-- AI chat via Google Gemini API (async with Celery & Redis)
-- Stripe subscriptions: Basic (free, limited) & Pro (paid, higher limits)
-- Rate limiting for Basic users (daily prompt cap)
-- Caching for chatroom list (per user)
-- Consistent JSON responses and robust error handling
+- **OTP-based login** (mobile number, OTP returned via API)
+- **JWT authentication** for secure API access
+- **User chatrooms** (create, list, view)
+- **AI chat**: Messages processed via Google Gemini API (async with Celery & Redis)
+- **Stripe subscriptions**: Basic (free, limited) & Pro (paid, higher limits)
+- **Rate limiting** for Basic users (daily prompt cap)
+- **Caching** for chatroom lists (per user)
+- **Consistent JSON responses and robust error handling**
 
 ## 🏗️ Tech Stack
 
 - **Language:** Python 3.10+ (FastAPI)
 - **Database:** PostgreSQL
-- **Queue & Caching:** Celery + Redis
+- **Queue & Caching:** Celery + Redis (Docker recommended on Windows[5])
 - **Payments:** Stripe (sandbox)
 - **AI:** Google Gemini API
 - **Deployment:** Render.com / Railway.app (recommended)
+- **API Docs:** Swagger UI & ReDoc (auto-generated)
 
 ## 📂 Project Structure
 
@@ -68,16 +70,19 @@ pip install -r requirements.txt
 
 - Copy `.env.example` to `.env` and fill in your values:
 
-```
-DATABASE_URL=
-SECRET_KEY=
-ALGORITHM=
-ACCESS_TOKEN_EXPIRE_MINUTES=
-REDIS_URL=
-STRIPE_SECRET_KEY=
-GEMINI_API_KEY=
-STRIPE_WEBHOOK_SECRET=
-```
+  ```env
+  DATABASE_URL=
+  SECRET_KEY=
+  ALGORITHM=
+  ACCESS_TOKEN_EXPIRE_MINUTES=
+  REDIS_URL=
+  STRIPE_SECRET_KEY=
+  GEMINI_API_KEY=
+  STRIPE_WEBHOOK_SECRET=
+  ```
+
+- **Never commit your real `.env` to GitHub!**  
+  Only provide `.env.example` with placeholder values.
 
 ### 4. **Database Setup**
 
@@ -88,17 +93,16 @@ STRIPE_WEBHOOK_SECRET=
 
 ### 5. **Start Redis**
 
-- **If you are on Windows and cannot install Redis natively, you can run Redis easily using Docker:**
+**If you are on Windows and cannot install Redis natively, use Docker:**
 
-  ```bash
-  docker run --name redis -d -p 6379:6379 redis
-  ```
+```bash
+docker run --name redis -d -p 6379:6379 redis
+```
+- Make sure Docker Desktop is running before executing the command.
+- This starts a Redis container accessible at `localhost:6379`.
 
-  - This will start a Redis container accessible at `localhost:6379`.
-  - Make sure Docker Desktop is running before executing the command.
-
-- **For Mac/Linux:**  
-  You can install Redis using your package manager (`brew install redis` or `sudo apt-get install redis-server`).
+**For Mac/Linux:**  
+Install Redis using your package manager (`brew install redis` or `sudo apt-get install redis-server`).
 
 ### 6. **Run the FastAPI Server**
 
@@ -113,13 +117,16 @@ uvicorn app.main:app --host 0.0.0.0 --port 9002
 celery -A queue.worker.celery_app worker --loglevel=info --pool=solo
 ```
 
-## 🧪 API Testing
+## 🧪 API Documentation & Testing
 
-- **Swagger UI:** [http://localhost:9002/docs](http://localhost:9002/docs)
+- **Swagger UI:** [http://localhost:9002/docs](http://localhost:9002/docs) (interactive API docs)
+- **ReDoc:** [http://localhost:9002/redoc](http://localhost:9002/redoc) (alternative docs)
+- **OpenAPI schema:** [http://localhost:9002/openapi.json](http://localhost:9002/openapi.json) (raw JSON)
 - **Postman Collection:**  
   Import `Gemini_Backend.postman_collection.json` into Postman for ready-to-use API requests.
-- **JWT Token:**  
-  Obtain from `/auth/verify-otp` and use as `Bearer ` for protected endpoints.
+
+**Authentication:**  
+- Obtain JWT from `/auth/verify-otp` and use as `Bearer ` for protected endpoints.
 
 ## 💳 Subscriptions
 
@@ -139,6 +146,7 @@ celery -A queue.worker.celery_app worker --loglevel=info --pool=solo
 ## 🌐 Deployment
 
 ### **Recommended: Render.com or Railway.app**
+
 1. Push your code to GitHub.
 2. Create a new Web Service on [Render](https://render.com) or [Railway](https://railway.app).
 3. Connect your GitHub repo.
@@ -157,4 +165,4 @@ celery -A queue.worker.celery_app worker --loglevel=info --pool=solo
 
 ## 📬 Contact
 
-For questions or help, open an issue on GitHub or email [sekharsunkara2002@gmail.com](mailto:sekharsunkara2002@gmail.com).
+For questions or help, open an issue on GitHub or email [sekharsunkara2002@gmail.com](mailto:sekharsunkara2002@gmail.com)
