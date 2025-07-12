@@ -1,0 +1,11 @@
+fastapi==0.110.0
+uvicorn[standard]==0.29.0
+SQLAlchemy==2.0.30
+asyncpg==0.29.0           # For PostgreSQL async support
+pydantic==2.7.1
+python-dotenv==1.0.1      # For .env file support
+redis==5.0.4              # For caching and Celery broker
+celery==5.3.6             # For async task queue
+stripe==8.6.0             # For Stripe payments
+httpx==0.27.0             # For async HTTP requests (Gemini API)
+alembic==1.13.1           # For database migrations
