@@ -81,9 +81,6 @@ pip install -r requirements.txt
   STRIPE_WEBHOOK_SECRET=
   ```
 
-- **Never commit your real `.env` to GitHub!**  
-  Only provide `.env.example` with placeholder values.
-
 ### 4. **Database Setup**
 
 - Ensure PostgreSQL is running.
